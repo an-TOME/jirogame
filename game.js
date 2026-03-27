@@ -1,4 +1,4 @@
-import * as repo from "./firebaseOpe.js";
+import * as repo from "./firebase.js";
 
 export function joinGame(name){
 	return repo.addPlayer(name);

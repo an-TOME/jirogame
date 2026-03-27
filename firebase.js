@@ -1,15 +1,38 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { db } from "./firebaseset.js";
+import { ref, set, onValue, update, get} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDo6CuuNGNnW4j08Hx9oMHUfgaHwHAkihM",
-    authDomain: "jinrogame.firebaseapp.com",
-    projectId: "jinrogame",
-    storageBucket: "jinrogame.firebasestorage.app",
-    messagingSenderId: "760019067196",
-    appId: "1:760019067196:web:244a48e35d36371ee07e39",
-    measurementId: "G-ZVD17L5MM8"
-};
+export function watchConnection(callback){
+	onValue(ref(db, '.info/connected'), (snap)=>{
+		callback(snap.val());
+	});
+}
 
-const app = initializeApp(firebaseConfig);
-export const db = getDatabase(app);
+export function addPlayer(name){
+	return set(ref(db, 'players/' + name), {
+		role: "待機中...",
+		alive: true
+	});
+}
+
+export function watchPlayersOnce(callback){
+	onValue(ref(db, 'players'), (snapshot)=>{
+		callback(snapshot.val());
+	}, { onlyOnce: true });
+}
+
+export function updateRole(name, role){
+	return update(ref(db, 'players/' + name), {
+		role: role
+	});
+}
+
+export function watchMyRole(name, callback){
+	onValue(ref(db, 'players/' + name + '/role'), (snapshot)=>{
+		callback(snapshot.val());
+	});
+}
+
+export async function getAllData(){
+	const snap = await get(ref(db, "/"));
+	return snap.val();
+}

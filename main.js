@@ -1,6 +1,6 @@
 import * as ui from "./ui.js";
 import * as game from "./game.js";
-import * as repo from "./firebaseOpe.js";
+import * as repo from "./firebase.js";
 
 // 接続状態
 repo.watchConnection((connected)=>{
@@ -42,3 +42,9 @@ if(saved){
 		ui.setRole(role);
 	});
 }
+
+// 全データ取得
+ui.AllgetClick(async ()=>{
+    const data = await repo.getAllData();
+    console.log(data);
+});

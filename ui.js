@@ -24,3 +24,7 @@ export function onJoinClick(callback){
 export function onAssignClick(callback){
 	document.getElementById('btn-assign').addEventListener('click', callback);
 }
+
+export function AllgetClick(callback){
+    document.getElementById('btn-allget').addEventListener('click', callback);
+}
