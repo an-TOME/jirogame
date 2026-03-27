@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>人狼テスト版</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; background: #f4f4f4; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: inline-block; min-width: 300px; }
+        #status { color: #888; font-size: 0.8rem; margin-bottom: 20px; }
+        #role-display { font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin: 20px 0; }
+        input { padding: 8px; margin-bottom: 10px; width: 80%; }
+        button { padding: 10px 15px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #2980b9; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div id="status">Firebase接続確認中...</div>
+    
+    <input type="text" id="userName" placeholder="あなたの名前を入力">
+    <br>
+    <button id="btn-join">1. 参加する</button>
+    <hr>
+    
+    <div id="role-display">名前を入れて参加してね</div>
+    
+    <hr>
+    <button id="btn-assign" style="background:#e67e22;">2. 役職を配る（誰か1人）</button>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDo6CuuNGNnW4j08Hx9oMHUfgaHwHAkihM",
+        authDomain: "jinrogame.firebaseapp.com",
+        projectId: "jinrogame",
+        storageBucket: "jinrogame.firebasestorage.app",
+        messagingSenderId: "760019067196",
+        appId: "1:760019067196:web:244a48e35d36371ee07e39",
+        measurementId: "G-ZVD17L5MM8"
+    };
+
+    // Firebase初期化
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const statusEl = document.getElementById('status');
+
+    // 接続確認
+    onValue(ref(db, '.info/connected'), (snap) => {
+        if (snap.val() === true) {
+            statusEl.innerText = "✅ Firebaseに接続しました！";
+            statusEl.style.color = "green";
+        } else {
+            statusEl.innerText = "❌ 接続待ち...";
+        }
+    });
+
+    // --- ボタンの動作設定 ---
+    // type="module" の中では onclick="joinGame()" が直接使えないため、ここで紐付けます
+    
+    document.getElementById('btn-join').addEventListener('click', () => {
+        const name = document.getElementById('userName').value;
+        if (!name) return alert("名前を入力してね");
+        
+        localStorage.setItem('wolf_my_name', name);
+        set(ref(db, 'players/' + name), {
+            role: "待機中...",
+            alive: true
+        }).then(() => {
+            alert(name + "さん、参加完了！");
+            watchMyRole(name);
+        });
+    });
+
+    document.getElementById('btn-assign').addEventListener('click', () => {
+        const roles = ["人狼", "占い師", "村人", "村人", "狂人"];
+        onValue(ref(db, 'players'), (snapshot) => {
+            const players = snapshot.val();
+            if (!players) return alert("参加者がいません");
+            
+            const names = Object.keys(players);
+            names.forEach((name, i) => {
+                update(ref(db, 'players/' + name), {
+                    role: roles[i % roles.length]
+                });
+            });
+            alert("役職を配りました！");
+        }, { onlyOnce: true });
+    });
+
+    // 役職の監視
+    function watchMyRole(name) {
+        onValue(ref(db, 'players/' + name + '/role'), (snapshot) => {
+            const role = snapshot.val();
+            document.getElementById('role-display').innerText = "あなたの役職: " + (role || "待機中...");
+        });
+    }
+
+    // ページ読み込み時に名前があれば監視
+    const savedName = localStorage.getItem('wolf_my_name');
+    if (savedName) {
+        document.getElementById('userName').value = savedName;
+        watchMyRole(savedName);
+    }
+</script>
+</body>
+</html>
