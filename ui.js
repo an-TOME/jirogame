@@ -95,3 +95,4 @@ export function setupRoleInputs(playerCount){
 		});
 	});
 }
+

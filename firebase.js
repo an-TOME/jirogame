@@ -79,3 +79,21 @@ export function countAlivePlayers(callback){
 		callback(count);
 	});
 }
+
+export function updateAlive(name, alivebool){
+	return update(ref(db, 'players/' + name), {
+		alive: alivebool
+	});
+}
+
+export function updateScore(name, score){
+	return update(ref(db, 'players/' + name), {
+		score: score
+	});
+}
+
+export function setDate(inputdate){
+	return set(ref(db, 'game/date'), {
+		date: date
+	});
+}

@@ -45,7 +45,7 @@
 
         <div class="counter">
             人狼：
-            <input type="number" class="value" value="0" min="0">
+            <input type="number" class="value" id="wolf-count" value="0" min="0">
             <!--
             <botton id="decrease1">-</botton>
             <span id="value1">0</span>
@@ -55,12 +55,12 @@
 
         <div class="counter">
             占い師：
-            <input type="number" class="value" value="0" min="0">
+            <input type="number" class="value" id="seer-count" value="0" min="0">
         </div>
 
         <div class="counter">
             狂人：
-            <input type="number" class="value" value="0" min="0">
+            <input type="number" class="value" id="madman-count" value="0" min="0">
         </div>
 
 
@@ -85,7 +85,9 @@
 
 <div class="admin-area">
 
-    <button id="btn-allget">全員の役職を表示</button>
+    <button id="randomkill">ランダムに1人殺す(テスト用)</button>
+
+    <button id="btn-allget">全てのデータを表示</button>
     <br>
     <button id="btn-alldelete">全データ削除</button>
 
