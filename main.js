@@ -56,3 +56,31 @@ ui.onAllDeleteClick(async ()=>{
 		alert("全データを削除しました");
 	}
 });
+
+// 全員のプレイヤー名表示
+firebase.watchAllPlayers((players)=>{
+	ui.viewAllPlayers(players);
+});
+
+// 生存者のプレイヤー名表示
+firebase.watchAlivePlayers((players)=>{
+	ui.viewAlivePlayers(players);
+});
+
+// プレイヤー数表示
+firebase.countPlayers((count)=>{
+	ui.setPlayerCount(count);
+
+	// 市民の数計算
+	ui.setupRoleInputs(count);
+	ui.updateCitizenDisplay(count);
+
+	console.log("playerCount:", count);
+});
+
+
+// 生存者数表示
+firebase.countAlivePlayers((count)=>{
+	ui.setAliveCount(count);
+});
+

@@ -42,3 +42,40 @@ export async function deleteAllData(){
 	await set(ref(db, "/"), null);
 }
 
+export function watchAllPlayers(callback){
+	onValue(ref(db, 'players'), (snapshot)=>{
+		callback(snapshot.val());
+	});
+}
+
+export function watchAlivePlayers(callback){
+	onValue(ref(db, 'players'), (snapshot)=>{
+		const players = snapshot.val();
+		const alivePlayers = {};
+		for(const name in players){
+			if(players[name].alive){
+				alivePlayers[name] = players[name];
+			}
+		}
+		callback(alivePlayers);
+	});
+}
+
+export function countPlayers(callback){
+	onValue(ref(db, 'players'), (snapshot)=>{
+		const players = snapshot.val();
+		const count = players ? Object.keys(players).length : 0;
+		callback(count);
+	});
+}
+
+export function countAlivePlayers(callback){
+	onValue(ref(db, 'players'), (snapshot)=>{
+		const players = snapshot.val();
+		let count = 0;
+		for(const name in players){
+			if(players[name].alive) count++;
+		}
+		callback(count);
+	});
+}

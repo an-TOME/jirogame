@@ -38,3 +38,4 @@ export function assignRoles(){
 export function watchRole(name, callback){
 	firebase.watchMyRole(name, callback);
 }
+

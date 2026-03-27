@@ -42,3 +42,56 @@ export function roleToText(role){
 		default: return "未定義";
 	}
 }
+
+export function viewAllPlayers(players){
+	const el = document.getElementById('player-list');
+	el.innerHTML = "";
+	for(const name in players){
+		const player = players[name];
+		el.innerHTML += `<div>${name}</div>`;
+		//el.innerHTML += `<div>${name}: ${roleToText(player.role)}</div>`;
+	}
+}
+
+export function viewAlivePlayers(players){
+	const el = document.getElementById('alive-list');
+	el.innerHTML = "";
+	for(const name in players){
+		const player = players[name];
+		el.innerHTML += `<div>${name}: ${roleToText(player.role)}</div>`;
+	}
+}
+
+export function setPlayerCount(count){
+	document.getElementById('player-count').innerText = count;
+}
+
+export function setAliveCount(count){
+	document.getElementById('alive-count').innerText = count;
+}
+
+export function citizenCount(playerCount){
+	const inputs = document.querySelectorAll('.value');
+
+	let total = 0;
+	inputs.forEach(input => {
+		total += Number(input.value);
+	});
+
+	return playerCount - total;
+}
+
+export function updateCitizenDisplay(playerCount){
+	const count = citizenCount(playerCount);
+	document.getElementById('citizen-count').innerText = count;
+}
+
+export function setupRoleInputs(playerCount){
+	const inputs = document.querySelectorAll('.value');
+
+	inputs.forEach(input => {
+		input.addEventListener('input', () => {
+			updateCitizenDisplay(playerCount);
+		});
+	});
+}
