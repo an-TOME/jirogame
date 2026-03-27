@@ -1,13 +1,25 @@
-import * as repo from "./firebase.js";
+import * as firebase from "./firebase.js";
 
+export const ROLE = {
+	NONE : 0,		// 未参加
+	CITIZEN : 1,	// 村人
+	WOLF : 2,		// 人狼
+	SEER : 3,		// 占い師
+	MADMAN : 4		// 狂人
+};
 export function joinGame(name){
-	return repo.addPlayer(name);
+	return firebase.addPlayer(name);
 }
 
 export function assignRoles(){
-	const roles = ["人狼", "占い師", "村人", "村人", "狂人"];
+	const roles = [
+		ROLE.CITIZEN,
+		ROLE.WOLF,
+		ROLE.SEER,
+		ROLE.MADMAN
+	];
 
-	repo.watchPlayersOnce((players)=>{
+	firebase.watchPlayersOnce((players)=>{
 		if(!players) {
 			alert("参加者がいません");
 			return;
@@ -16,7 +28,7 @@ export function assignRoles(){
 		const names = Object.keys(players);
 
 		names.forEach((name, i)=>{
-			repo.updateRole(name, roles[i % roles.length]);
+			firebase.updateRole(name, roles[i % roles.length]);
 		});
 
 		alert("役職を配りました！");
@@ -24,5 +36,5 @@ export function assignRoles(){
 }
 
 export function watchRole(name, callback){
-	repo.watchMyRole(name, callback);
+	firebase.watchMyRole(name, callback);
 }

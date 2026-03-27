@@ -9,10 +9,10 @@ export function initApp(){
     // 接続確認
     onValue(ref(db, '.info/connected'), (snap) => {
         if (snap.val() === true) {
-            statusEl.innerText = "✅ Firebaseに接続しました！";
+            statusEl.innerText = "Firebaseに接続しました！";
             statusEl.style.color = "green";
         } else {
-            statusEl.innerText = "❌ 接続待ち...";
+            statusEl.innerText = "接続待ち...";
         }
     });
 

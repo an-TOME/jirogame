@@ -9,8 +9,9 @@ export function watchConnection(callback){
 
 export function addPlayer(name){
 	return set(ref(db, 'players/' + name), {
-		role: "待機中...",
-		alive: true
+		role: 0,
+		alive: true,
+		score: 0
 	});
 }
 
@@ -20,9 +21,9 @@ export function watchPlayersOnce(callback){
 	}, { onlyOnce: true });
 }
 
-export function updateRole(name, role){
+export function updateRole(name, inputrole){
 	return update(ref(db, 'players/' + name), {
-		role: role
+		role: inputrole
 	});
 }
 
@@ -36,3 +37,8 @@ export async function getAllData(){
 	const snap = await get(ref(db, "/"));
 	return snap.val();
 }
+
+export async function deleteAllData(){
+	await set(ref(db, "/"), null);
+}
+

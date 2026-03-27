@@ -1,13 +1,13 @@
 import * as ui from "./ui.js";
 import * as game from "./game.js";
-import * as repo from "./firebase.js";
+import * as firebase from "./firebase.js";
 
 // 接続状態
-repo.watchConnection((connected)=>{
+firebase.watchConnection((connected)=>{
 	if(connected){
-		ui.setStatus("✅ Firebaseに接続しました！", "green");
+		ui.setStatus("接続しました！");
 	}else{
-		ui.setStatus("❌ 接続待ち...");
+		ui.setStatus("接続待ち...");
 	}
 });
 
@@ -45,6 +45,14 @@ if(saved){
 
 // 全データ取得
 ui.AllgetClick(async ()=>{
-    const data = await repo.getAllData();
+    const data = await firebase.getAllData();
     console.log(data);
+});
+
+//全データ削除
+ui.onAllDeleteClick(async ()=>{
+	if(confirm("全データを削除しますか？")){
+		await firebase.deleteAllData();
+		alert("全データを削除しました");
+	}
 });

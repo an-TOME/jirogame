@@ -1,7 +1,6 @@
-export function setStatus(text, color){
+export function setStatus(text){
 	const el = document.getElementById('status');
 	el.innerText = text;
-	if(color) el.style.color = color;
 }
 
 export function getUserName(){
@@ -14,7 +13,7 @@ export function setUserName(name){
 
 export function setRole(role){
 	document.getElementById('role-display').innerText =
-		"あなたの役職: " + (role || "待機中...");
+		"あなたの役職: " + roleToText(role);
 }
 
 export function onJoinClick(callback){
@@ -27,4 +26,19 @@ export function onAssignClick(callback){
 
 export function AllgetClick(callback){
     document.getElementById('btn-allget').addEventListener('click', callback);
+}
+
+export function onAllDeleteClick(callback){
+	document.getElementById('btn-alldelete').addEventListener('click', callback);
+}
+
+export function roleToText(role){
+	switch(role){
+		case 0: return "未参加";
+		case 1: return "市民";
+		case 2: return "人狼";
+		case 3: return "占い師";
+		case 4: return "狂人";
+		default: return "未定義";
+	}
 }
