@@ -13,7 +13,15 @@
     
     <input type="text" id="userName" placeholder="あなたの名前を入力">
     <br>
-    <button id="btn-join">1. 参加する</button>
+    <button id="btn-join">参加する</button>
+    <br>
+    あなたの名前: <span id="name-display">未参加</span>
+    <br>
+    <!---
+    現在のスコア: <span id="score-display">0</span>
+    <br>
+    -->
+    あなたの役職: <div id="role-display">参加したら役職が表示されます</div>
 </div>
 
 <hr>
@@ -26,12 +34,38 @@
     <div id="player-list">参加者の名前がここに表示されます</div>
     <br>
 
-    生存人数: <span id="alive-count">0</span>人
     <br>
     <div id="alive-list">生存者の名前がここに表示されます</div>
+    <!--現在プレイヤーリストに併合中、死亡者にのみ表示する予定-->
     <br>
 
 </div>
+
+<hr>
+
+<div class="gameinfo-area">
+
+    日数: <span id="day-count">0</span>日目
+    <br>
+    現在の時間帯: <span id="time-display">不明</span>
+    <br>
+    現在の勝利陣営: <span id="winner-display">不明</span>
+    <br>
+    生存人数: <span id="alive-count">0</span>人
+    <br>
+    
+
+</div>
+
+<div class="game-area">
+
+    <div id="action-display">行動内容がここに表示されます。ゲーム開始までお待ちください。</div> 
+
+    <div id="vote-list"></div>
+
+    <button id="btn-action">行動</button>
+    <br>
+    <button id="btn-next">次のフェーズへ</button>
 
 <hr>
 
@@ -67,18 +101,16 @@
 
     </div>
 
-    <button id="btn-assign">2. 役職を配る（誰か1人）</button>
+    <button id="btn-assign">役職を配る（誰か1人）</button>
 
 </div>
 
 <hr>
 
-<div class="card">
+<div class="score-area">
 
-    
-    
-    <div id="role-display">参加したら役職が表示されます</div>
-    
+    全員のスコア:
+    <div id="score-list">全員のスコアがここに表示されます</div>
 
 </div>
 

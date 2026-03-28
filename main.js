@@ -75,7 +75,7 @@ firebase.countPlayers((count)=>{
 	ui.setupRoleInputs(count);
 	ui.updateCitizenDisplay(count);
 
-	console.log("playerCount:", count);
+	//console.log("playerCount:", count);
 });
 
 
